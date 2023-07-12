@@ -1,0 +1,14 @@
+
+call {sv_currentTime = round triggerTimeoutCurrent trg0; TAG_fnc_coloredCountdownHint = { 
+ _color = "#45f442"; _timeLeft = TAG_fnc_countdownEndTime - time; 
+ if (_timeLeft < 16) then {_color = "#eef441";};
+ if (_timeLeft < 6) then {_color = "#ff0000";}; 
+ if (_timeLeft < 0) exitWith { 
+  removeMissionEventhandler ["EachFrame",_thisEventHandler]; 
+  hintSilent parseText format ["<t color='%1'>--- Time is up! ---</t>",_color]; 
+ }; 
+ hintSilent parseText format ["Time Left:<br/><t color='%1'>--- %2 ---</t>", _color, [(_timeLeft/3600),"HH:MM:SS"] call BIS_fnc_timetostring]; 
+}; 
+ _duration = sv_currentTime; 
+TAG_fnc_countdownEndTime = time + _duration; 
+addMissionEventHandler ["EachFrame",{[] call TAG_fnc_coloredCountdownHint}];};
