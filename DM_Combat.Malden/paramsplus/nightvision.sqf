@@ -6,7 +6,7 @@ _unit = _this;
 
 waitUntil { !(isNil {_unit getVariable "LoadoutDone"}) };
 
-private _future = time + 1;
+private _future = time + 10;
 waitUntil { time >= _future };
 
 _nvList = ["NVGoggles","NVGoggles_INDEP","NVGoggles_OPFOR","NVGoggles_tna_F","NVGogglesB_blk_F","NVGogglesB_grn_F","NVGogglesB_gry_F","O_NVGoggles_ghex_F","O_NVGoggles_grn_F","O_NVGoggles_hex_F","O_NVGoggles_urb_F","Integrated_NVG_F","Integrated_NVG_TI_0_F","Integrated_NVG_TI_1_F"];
@@ -15,7 +15,7 @@ _ldList = ["Binocular","Laserdesignator","Laserdesignator_02","Laserdesignator_0
 
 if (((dayTime > ((date call BIS_fnc_sunriseSunsetTime) select 0) - 0.5) && (dayTime < ((date call BIS_fnc_sunriseSunsetTime) select 1) + 0.5)) isEqualTo false) then
 {
-	if (([_unit, "G_Goggles_VR"] call BIS_fnc_hasItem) isEqualTo true) then {
+	if ("G_Goggles_VR" in (items _unit + assignedItems _unit)) then {
 		
 		_unit unassignItem "G_Goggles_VR";
 		_unit unLinkItem "G_Goggles_VR";
@@ -28,7 +28,7 @@ if (((dayTime > ((date call BIS_fnc_sunriseSunsetTime) select 0) - 0.5) && (dayT
 	for "_i" from 0 to count _nvList -1 do
 	{
 		_nv = _nvList select _i;
-		if (([_unit, _nv] call BIS_fnc_hasItem) isEqualTo true) then {
+		if (_nv in (items _unit + assignedItems _unit)) then {
 					
 			_unit unassignItem _nv;	
 			_unit unLinkItem _nv;
@@ -44,7 +44,7 @@ if (!isPlayer _unit) then
 	for "_i" from 0 to count _ldList -1 do
 	{
 		_ld = _ldList select _i;
-		if (([_unit, _ld] call BIS_fnc_hasItem) isEqualTo true) then {
+		if (_ld in (items _unit + assignedItems _unit)) then {
 					
 			_unit removeWeaponGlobal _ld;			
 		};	

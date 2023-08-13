@@ -3,22 +3,29 @@
 _PMarkers = "PMarkers" call BIS_fnc_getParamValue;
 if (_PMarkers isEqualTo 1) exitWith {};
 private ["_unit","_varname","_group","_grp","_mrkrCnt","_mrkr","_text","_PMarkers"];
-_unit				= _this;
+_unit			= _this;
 _varname 		= vehicleVarName _unit;
-_rank 		= rank _unit;
-_classname 	= format ["%1", typeOf _unit];
+_classname 		= format ["%1", typeOf _unit];
 _displayname 	= gettext (configfile >> "CfgVehicles" >> _className >> "displayName");
 _group			= group _unit;	
 _mrkrtxt		= _varname;
 _mrkrCnt 		= 0;
-_mrkrcolor 	= [];
+_mrkrcolor 		= [];
 
 switch (side _unit) do {
 
-         case blufor:				{_mrkrcolor = "ColorWEST"};
-         case opfor:				{_mrkrcolor = "ColorEAST"};
-         case independent:	{_mrkrcolor = "ColorGUER"};
-         case civilian:			{_mrkrcolor = "ColorCIV"};
+    case blufor:		{_mrkrcolor = "ColorWEST"};
+    case opfor:			{_mrkrcolor = "ColorEAST"};
+    case independent:	{_mrkrcolor = "ColorGUER"};
+    case civilian:		{_mrkrcolor = "ColorCIV"};
+};
+
+switch (side _unit) do {
+
+    case blufor:		{_mrkrcolor = "ColorWEST"};
+    case opfor:			{_mrkrcolor = "ColorEAST"};
+    case independent:	{_mrkrcolor = "ColorGUER"};
+    case civilian:		{_mrkrcolor = "ColorCIV"};
 };
 
 _text = toArray(str _group);
@@ -26,72 +33,60 @@ _text set[0,"**DELETE**"];
 _text set[1,"**DELETE**"];
 _text = _text - ["**DELETE**"];
 _grp = toString(_text);
-_mrkrcolor 	= [];
 
-switch true do {
-  case (isMultiplayer): {		
-	if (!(isNil { _unit getVariable "markerGroup"})) then
+switch true do 
+	{
+  	case (isMultiplayer): {		
+		if (!(isNil { _unit getVariable "markerGroup"})) then
 			{
-			_mrkrCnt = (_unit getVariable "markerGroup") select 2;
-			_mrkrCnt = _mrkrCnt + 1;
-			_unit setVariable ["markerGroup", [_varName,_rank,_mrkrCnt]];
-	}  else {		
-			_mrkrCnt = 1;
-			_unit setVariable ["markerGroup", [_varName,_rank,_mrkrCnt]];
-			_unit addEventHandler ["Respawn", {
-				params ["_unit", "_corpse"];
-				_unit setVehicleVarname (vehicleVarname _corpse);
-				_unit setIdentity (vehicleVarname _corpse);
-				switch (rankID _corpse) do {
-	     			case 1:	{_unit setUnitRank "Private"};
-	     			case 2:	{_unit setUnitRank "Corporal"};
-	     			case 3:	{_unit setUnitRank "Sergeant"};
-	     			case 4:	{_unit setUnitRank "Lieutenant"};
-	     			case 5:	{_unit setUnitRank "Captain"};
-	     			case 6:	{_unit setUnitRank "Colonel"};
-				};
-				_unit execVM "ParamsPlus\markers.sqf";
-			}];
+				_mrkrCnt = _unit getVariable "markerGroup";
+				_mrkrCnt = _mrkrCnt + 1;
+				_unit setVariable ["markerGroup", _mrkrCnt, true];
+				_unit addEventHandler ["Respawn", {
+        			params ["_unit", "_corpse"];
+        			_mrkrCnt = _corpse getVariable "markerGroup";
+					_unit setVariable ["markerGroup", _mrkrCnt, true];
+					_unit execVM "ParamsPlus\markers.sqf";
+				}];
+			} else {		
+				_mrkrCnt = 1;
+				_unit setVariable ["markerGroup", _mrkrCnt, true];
+				_unit addEventHandler ["Respawn", {
+        			params ["_unit", "_corpse"];
+        			_mrkrCnt = _corpse getVariable "markerGroup";
+					_unit setVariable ["markerGroup", _mrkrCnt, true];
+					_unit execVM "ParamsPlus\markers.sqf";
+				}];
+			};
+		_mrkrCnt = _unit getVariable "markerGroup";	
+		_mrkrname = format ["%1_%2",_varname,_mrkrCnt];
+		_mrkr = createMarkerLocal [_mrkrname, position _unit];
+		_mrkr setMarkerTypeLocal "mil_start";
+		_mrkr setMarkerShapeLocal "ICON";
+		_mrkr setMarkerTextLocal _mrkrtxt;
+		_mrkr setMarkerSizeLocal [.5,.5];
+		_mrkr setMarkerColorLocal _mrkrcolor;
+	};
+  	case (!isMultiplayer): {		
+		if (!(isNil { missionNamespace getVariable "markerGroup"})) then
+			{
+				_mrkrCnt = missionNamespace getVariable "markerGroup";
+				_mrkrCnt = _mrkrCnt + 1;
+				missionNamespace setVariable ["markerGroup", _mrkrCnt, true];
+			} else {		
+				_mrkrCnt = 1;
+				missionNamespace setVariable ["markerGroup", _mrkrCnt, true];
+			};
+		_mrkrCnt = missionNamespace getVariable "markerGroup";	
+		_mrkrname = format ["%1_%2",_varname,_mrkrCnt];
+		_mrkr = createMarkerLocal [_mrkrname, position _unit];
+		_mrkr setMarkerTypeLocal "mil_start";
+		_mrkr setMarkerShapeLocal "ICON";
+		_mrkr setMarkerTextLocal _mrkrtxt;
+		_mrkr setMarkerSizeLocal [.5,.5];
+		_mrkr setMarkerColorLocal _mrkrcolor;
 		};
-		_varname = (_unit getVariable "markerGroup") select 0;
-		_mrkrCnt = (_unit getVariable "markerGroup") select 2;
-		_mrkrname = format ["%1_%2",_varname,_mrkrCnt];
-		_mrkr = createMarkerLocal [_mrkrname, position _unit];
-		_mrkr setMarkerTypeLocal "mil_start";
-		_mrkr setMarkerShapeLocal "ICON";
-		_mrkr setMarkerTextLocal _mrkrtxt;
-		_mrkr setMarkerSizeLocal [.5,.5];
-		_mrkr setMarkerColorLocal _mrkrcolor;
 	};
-  case (!isMultiplayer): {
-	if (!(isNil { missionNamespace getVariable "markerGroup"})) then
-			{
-			_mrkrCnt = (missionNamespace getVariable "markerGroup") select 2;
-			_mrkrCnt = _mrkrCnt + 1;
-			missionNamespace setVariable ["markerGroup", [_varName,_rank,_mrkrCnt]];
-	} else 	{		
-			_mrkrCnt = 1;
-			missionNamespace setVariable ["markerGroup", [_varName,_rank,_mrkrCnt]];
-	};
-		_varname = (missionNamespace getVariable "markerGroup") select 0;
-		_mrkrCnt = (missionNamespace getVariable "markerGroup") select 2;
-		_mrkrname = format ["%1_%2",_varname,_mrkrCnt];
-		_mrkr = createMarkerLocal [_mrkrname, position _unit];
-		_mrkr setMarkerTypeLocal "mil_start";
-		_mrkr setMarkerShapeLocal "ICON";
-		_mrkr setMarkerTextLocal _mrkrtxt;
-		_mrkr setMarkerSizeLocal [.5,.5];
-		_mrkr setMarkerColorLocal _mrkrcolor;
-	};
-};
-
-//switch (group _unit) do {
-
-//         case Rambo:		{_mrkrcolor = "Color4_FD_F"};
-//         case Nazari:		{_mrkrcolor = "Color1_FD_F"};
-//         case Rosi:			{_mrkrcolor = "Color5_FD_F"};
-//         case Revolution:	{_mrkrcolor = "Color6_FD_F"};
-//};
 
 //Default	[0,0,0,1]
 //ColorBlack	[0,0,0,1]
@@ -124,6 +119,7 @@ switch true do {
 //Color5_FD_F	[0.690196,0.25098,0.654902,1]-Pink
 //Color6_FD_F	[0.352941,0.34902,0.352941,1]-Grey
 //Color8_FD_F	[1,1,1,1]-White
+
 
 	if ((group _unit == Rambo) isEqualTo true) then {
 		_mrkr setMarkerColorLocal "Color4_FD_F";
@@ -184,7 +180,14 @@ while {(getDammage _unit) < .3} do {
 	};
 	sleep 1;
 };
-	
+
+_mrkr setMarkerTypeLocal "hd_objective";
+_mrkr setMarkerTextLocal _mrkr;
+_mrkr setMarkerAlphaLocal 0.25;
+
+sleep 20;
+deleteMarkerLocal _mrkr;
+
 //while {alive _unit} do {
 //	if ((getDammage _unit) < .3) then {
 //	_mrkr setMarkerType "mil_start";
@@ -201,7 +204,5 @@ while {(getDammage _unit) < .3} do {
 //		sleep 0.5;
 //	};
 //};
-_mrkr setMarkerTypeLocal "hd_objective";
-_mrkr setMarkerTextLocal _mrkr;
-_mrkr setMarkerAlphaLocal 0.25;
+
 

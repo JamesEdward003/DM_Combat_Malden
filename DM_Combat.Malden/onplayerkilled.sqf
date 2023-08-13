@@ -7,21 +7,10 @@ missionNamespace setVariable["choosenBuilding", nil];
 
 removeAllActions _oldUnit;
 
-_oldUnit setVariable ["SavedLoadout",(getUnitLoadout _oldUnit)];
-
 if (!isMultiPlayer) then {
 
 	waitUntil { alive player };
 		
-	_PRespawnLoadOut = "PRespawnLoadOut" call BIS_fnc_getParamValue;
-
-	//if (_PRespawnLoadOut isEqualTo 2) then
-
-	//{
-		//player setUnitLoadout (getUnitLoadout _oldUnit);
-		//player setUnitLoadout (_oldUnit getVariable "SavedLoadout");
-	//};	
-
 	waitUntil { !visibleMap OR !isNil "choosenBuilding" };
 		
 	if (!isNil "choosenBuilding") then {
@@ -33,7 +22,7 @@ if (!isMultiPlayer) then {
 		
 		uisleep 1;
 			
-		player setPos [(getMarkerPos _marker) select 0,(getMarkerPos _marker) select 1,0];
+		player setPosATL [(getMarkerPos _marker) select 0,(getMarkerPos _marker) select 1,0];
 		//hint format ["%1,%2",_building,_marker];
 		
 		missionNamespace setVariable[ "choosenBuilding", nil];

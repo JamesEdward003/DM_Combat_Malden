@@ -1,6 +1,6 @@
 // init.sqf //
 
-[playerSide, "HQ"] commandChat "Initiating v2023.7.9";
+[playerSide, "HQ"] commandChat "Initiating v2023.8.12";
 
 addMissionEventHandler ["EntityKilled", { 
 	params ["_unit", "_killer", "_instigator", "_useEffects"];
@@ -11,6 +11,14 @@ addMissionEventHandler ["EntityKilled", {
 addMissionEventHandler ["EntityRespawned", { 
 	params ["_entity", "_corpse"];
 	if (!isPlayer _entity) then {
+		if (!(_entity in (units player))) then {
+			switch (side _entity) do {
+				case west: {_spawnPos=[[[position respawn_west, 50]], []] call BIS_fnc_randomPos;_entity setPos _spawnPos;};
+				case east: {_spawnPos=[[[position respawn_east, 50]], []] call BIS_fnc_randomPos;_entity setPos _spawnPos;};
+				case resistance: {_spawnPos=[[[position respawn_guer, 50]], []] call BIS_fnc_randomPos;_entity setPos _spawnPos;};
+				case civilian: {_spawnPos=[[[position respawn_civilian, 50]], []] call BIS_fnc_randomPos;_entity setPos _spawnPos;};
+			};
+		};
 	_PRespawnLoadOut = "PRespawnLoadOut" call BIS_fnc_getParamValue;
 	if (_PRespawnLoadOut isEqualTo 2) then
 		{
@@ -21,18 +29,39 @@ addMissionEventHandler ["EntityRespawned", {
         {deleteVehicle _x} forEach _droppedGear + [_corpse];
 	};
 }]; 
+
+if (hasInterface) then { 
+  [] spawn { 
+    waitUntil {alive player}; 
+    player setVariable ["loadout", getUnitLoadout player]; 
+  }; 
+};
+if (isServer) then {
+  addMissionEventHandler ["entityKilled", { 
+    params ["_unit"]; 
+    if (isNil {_unit getVariable "loadout"} && !isPlayer _unit) then {
+      _unit setVariable ["loadout", getUnitLoadout _unit]
+    };
+  }];
+  addMissionEventHandler ["entityRespawned", { 
+    params ["_unit"];
+    _unit setUnitLoadout (_unit getVariable "loadout")
+  }]
+};
 /*
 addMissionEventHandler ["EntityRespawned", { 
 	params ["_entity", "_corpse"];
-	if (!isPlayer _entity) then {
-	_PRespawnLoadOut = "PRespawnLoadOut" call BIS_fnc_getParamValue;
-	if (_PRespawnLoadOut isEqualTo 2) then
-		{
-			if (isNull _corpse) exitWith {};
-			_entity setUnitLoadout (getUnitLoadout _corpse);
+	if ((_entity in playableUnits) || (_entity in switchableUnits)) then { [playerSide, "HQ"] commandChat "Unit Respawned!";
+		_entity setVehicleVarname (vehicleVarname _corpse);
+		_entity setIdentity (vehicleVarname _corpse);
+		switch (rankID _corpse) do {
+			case 1:	{_entity setUnitRank "Private"};
+			case 2:	{_entity setUnitRank "Corporal"};
+			case 3:	{_entity setUnitRank "Sergeant"};
+			case 4:	{_entity setUnitRank "Lieutenant"};
+			case 5:	{_entity setUnitRank "Captain"};
+			case 6:	{_entity setUnitRank "Colonel"};
 		};
-		_droppedGear = nearestObjects [_corpse, ["WeaponHolder", "WeaponHolderSimulated", "GroundWeaponHolder"], 10];
-        {deleteVehicle _x} forEach _droppedGear + [_corpse];
 	};
 }]; 
 */
@@ -56,12 +85,17 @@ addMissionEventHandler ["MapSingleClick", {
 	"LZ" setMarkerTextLocal " LZ";
 	"LZ" setMarkerSizeLocal [1,1];
 	"LZ" setMarkerColorLocal "colorblack";	
+	player setPosATL [(getMarkerPos "LZ") select 0,(getMarkerPos "LZ") select 1,0];
 	hint parseText format["<t size='1.25' color='#44ff00'>Check Map Objective!</t>"];};
 }];
 
-addMissionEventHandler ["TeamSwitch", {
-	params ["_previousUnit", "_newUnit"];
-	_previousUnit enableAI "TeamSwitch";
+addMissionEventHandler[ "TeamSwitch", {
+	params[ "_previousUnit", "_newUnit" ];
+	setGroupIconsVisible[ true, true ];
+	_newUnit setVariable[ "MARTA_SHOWRULES", _previousUnit getVariable "MARTA_SHOWRULES" ];
+	_newUnit setVariable[ "MARTA_REVEAL", _previousUnit getVariable "MARTA_REVEAL" ];
+	_newUnit setVariable[ "MARTA_HIDE", _previousUnit getVariable "MARTA_HIDE" ];
+	group _newUnit setVariable[ "enemygroups", group _previousUnit getVariable "enemygroups" ];
 }];
 
 addMissionEventHandler ["GroupIconClick", {
@@ -143,39 +177,6 @@ KS_fnc_vehicleRespawnNotification =
 	};
 }] call BIS_fnc_addStackedEventHandler;
 
-//if !(player getVariable ["civSuitPowers_eh",false]) then
-//{
-//	[
-//		"checkEquippedUniform",
-//		"onEachFrame",
-//		{
-//			params ["_unit"];
-//			_civSuitArray = [U_NikosAgedBody,U_OrestesBody,U_C_Poor_1,U_C_Poor_2,U_C_Poloshirt_burgundy,U_C_WorkerCoveralls,U_C_Poor_shorts_1];
-//			if (uniform _unit in _civSuitArray) then
-//			{
-//				[ [], "fnc_civSuitPowers", _unit ] call BIS_fnc_MP;
-//				Civilian setFriend [East, 1];
-//				East setFriend [Civilian, 1];
-//				Civilian setFriend [West, 1];
-//				West setFriend [Civilian, 1];
-//				Civilian setFriend [Resistance, 1];
-//				Resistance setFriend [Civilian, 1];
-//			}
-//			else
-//			{
-//				Civilian setFriend [East, 0];
-//				East setFriend [Civilian, 0];
-//				Civilian setFriend [West, 0];
-//				West setFriend [Civilian, 0];
-//				Civilian setFriend [Resistance, 0];
-//				Resistance setFriend [Civilian, 0];
-//			};
-//		},
-//		[player]
-//	] call BIS_fnc_addStackedEventHandler;
-//	player setVariable ["civSuitPowers_eh",true];
-//};
-
 ["Preload"] call BIS_fnc_arsenal;
 
 ["Initialize"] call BIS_fnc_dynamicGroups;
@@ -183,11 +184,13 @@ KS_fnc_vehicleRespawnNotification =
 ["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;
 
 [missionnamespace,"arsenalOpened", {
+	params ["_namespace", "_name", "_handlerID"];
     cuttext [format ["Welcome, your role is: %1.", getText(configFile >> "CfgVehicles" >> (typeOf player) >> "displayName")],"PLAIN DOWN",1];
 }] call bis_fnc_addScriptedEventhandler;
 
 [missionnamespace,"arsenalClosed", {
-    [player, [missionNamespace, "inventory_var"]] call BIS_fnc_saveInventory;
+	params ["_namespace", "_name", "_handlerID"];
+    player setVariable ["loadout",(getUnitLoadout player)];
     titletext ["\nArsenal loadout saved.", "PLAIN DOWN"];
 }] call bis_fnc_addScriptedEventhandler;
 

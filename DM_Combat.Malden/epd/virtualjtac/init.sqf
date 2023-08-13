@@ -1,3 +1,6 @@
+_PJTAC = "PJTAC" call BIS_fnc_getParamValue;
+if (_PJTAC isEqualTo 1) exitWith {};
+
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacsettings.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\Projectiles.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\EvenSpread.sqf";
@@ -19,7 +22,7 @@ if(!isDedicated) then {
 
 	//Wait for JIP to load in...
 	waitUntil {sleep .5; !(isNull player)};
-	waitUntil { (isServer || !isNull player) && (!isNil "introQuotationsDone" || !isNil "introTitlecardDone" || !isNil "introPlayVideoDone") };
+//	waitUntil { (isServer || !isNull player) && (!isNil "introQuotationsDone" || !isNil "introTitlecardDone" || !isNil "introPlayVideoDone") };
 	
 	if (player getVariable ["JTAC", false]) then {
 		hint "You are the Joint Terminal Attack Controller. It is your job to provide support to your team in the form of close air and artillery support. Make sure you bring a laser designator and batteries so you can call in support with the JTAC menu. Information about each attack capability is included in your diary.";

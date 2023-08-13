@@ -13,6 +13,8 @@ if (_PRespawnLoadOut isEqualTo 2) exitWith {
 
 [west, "Marksman"] call BIS_fnc_addRespawnInventory;
 
+};
+
 //[west, ["PETTKA",1]] call BIS_fnc_addRespawnInventory;
 //[west, ["NORTHGATE",1]] call BIS_fnc_addRespawnInventory;
 //[west, ["KERRY",1]] call BIS_fnc_addRespawnInventory;

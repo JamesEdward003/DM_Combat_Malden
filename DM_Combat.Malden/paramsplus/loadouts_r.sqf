@@ -8,6 +8,9 @@
 //I_medic_F (Rosi_6)
 //I_Soldier_AT_F (Rosi_7)
 //I_Soldier_AA_F (Rosi_8)
+
+//I_Story_Colonel_F (Akhanteros_1)
+//I_Captain_Hladas_F (Hladik_1)
 private ["_unit","_typeUnit","_classname","_displayname","_PLoadOut","_PDiverEquip"];
 _PLoadOut = "PLoadOut" call BIS_fnc_getParamValue;
 _PDiverEquip = "PDiverEquip" call BIS_fnc_getParamValue;
@@ -19,7 +22,7 @@ _unit = _this;
 
 switch (typeOf _unit) do {
 
-	case "I_diver_TL_F": { 		//  (REVOLUTION_1)
+	case "I_diver_TL_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -87,11 +90,10 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 
 comment "Set identity";
-[_unit,"GreekHead_A3_03","male03gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };
 
-	case "I_diver_exp_F": {		// (REVOLUTION_2)
+	case "I_diver_exp_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -159,11 +161,10 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 
 comment "Set identity";
-[_unit,"GreekHead_A3_09","male06gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };
 
-	case "I_diver_F": {	//  (REVOLUTION_3)
+	case "I_diver_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -231,11 +232,10 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 
 comment "Set identity";
-[_unit,"GreekHead_A3_04","male01gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };
 
-	case "I_medic_F": {		//  (REVOLUTION_4) 
+	case "I_medic_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -303,11 +303,10 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 
 comment "Set identity";
-[_unit,"GreekHead_A3_04","male05gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };
 
-	case "I_engineer_F": {		//  (REVOLUTION_5) 
+	case "I_engineer_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -375,11 +374,10 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 
 comment "Set identity";
-[_unit,"GreekHead_A3_09","male03gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };
 
-	case "I_soldier_mine_F": {	//  (REVOLUTION_6) 
+	case "I_soldier_mine_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -447,13 +445,12 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 
 comment "Set identity";
-[_unit,"GreekHead_A3_03","male01gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };
 
-	case "I_Story_Colonel_F": {	//  (REVOLUTION_7) 
+	case "I_Story_Colonel_F": {
 
-comment "Exported from Arsenal by DIEHARD";
+comment "Exported from Arsenal by RENFRO";
 
 comment "[!] UNIT MUST BE LOCAL [!]";
 if (!local _unit) exitWith {};
@@ -472,43 +469,33 @@ comment "Add weapons";
 _unit addWeapon "arifle_MX_GL_Black_F";
 _unit addPrimaryWeaponItem "muzzle_snds_H";
 _unit addPrimaryWeaponItem "acc_pointer_IR";
-_unit addPrimaryWeaponItem "optic_SOS";
+_unit addPrimaryWeaponItem "optic_MRCO";
 _unit addPrimaryWeaponItem "30Rnd_65x39_caseless_black_mag";
-_unit addPrimaryWeaponItem "1Rnd_HE_Grenade_shell";
-_unit addWeapon "hgun_Pistol_heavy_02_F";
+_unit addWeapon "hgun_Pistol_heavy_01_F";
+_unit addHandgunItem "muzzle_snds_acp";
 _unit addHandgunItem "acc_flashlight_pistol";
-_unit addHandgunItem "optic_Yorris";
-_unit addHandgunItem "6Rnd_45ACP_Cylinder";
+_unit addHandgunItem "11Rnd_45ACP_Mag";
 
 comment "Add containers";
 _unit forceAddUniform "U_I_OfficerUniform";
-_unit addVest "V_BandollierB_oli";
-_unit addBackpack "B_Kitbag_sgg";
+_unit addVest "V_TacVest_camo";
+_unit addBackpack "B_AssaultPack_dgtl";
 
 comment "Add binoculars";
 _unit addMagazine "Laserbatteries";
 _unit addWeapon "Laserdesignator";
 
 comment "Add items to containers";
-_unit addItemToUniform "FirstAidKit";
-for "_i" from 1 to 3 do {_unit addItemToUniform "30Rnd_65x39_caseless_black_mag";};
-_unit addItemToUniform "Chemlight_green";
-_unit addItemToVest "I_UavTerminal";
-_unit addItemToVest "MineDetector";
-for "_i" from 1 to 3 do {_unit addItemToVest "SmokeShellGreen";};
-for "_i" from 1 to 2 do {_unit addItemToVest "Chemlight_green";};
-for "_i" from 1 to 3 do {_unit addItemToVest "1Rnd_HE_Grenade_shell";};
-for "_i" from 1 to 3 do {_unit addItemToVest "6Rnd_45ACP_Cylinder";};
+for "_i" from 1 to 2 do {_unit addItemToUniform "FirstAidKit";};
+for "_i" from 1 to 2 do {_unit addItemToUniform "SmokeShellGreen";};
+for "_i" from 1 to 2 do {_unit addItemToUniform "11Rnd_45ACP_Mag";};
+for "_i" from 1 to 8 do {_unit addItemToVest "FirstAidKit";};
+for "_i" from 1 to 3 do {_unit addItemToVest "11Rnd_45ACP_Mag";};
 _unit addItemToBackpack "Medikit";
-_unit addItemToBackpack "ToolKit";
-_unit addItemToBackpack "3Rnd_UGL_FlareGreen_F";
-_unit addItemToBackpack "3Rnd_SmokeGreen_Grenade_shell";
-for "_i" from 1 to 4 do {_unit addItemToBackpack "3Rnd_HE_Grenade_shell";};
-for "_i" from 1 to 2 do {_unit addItemToBackpack "HandGrenade";};
-for "_i" from 1 to 2 do {_unit addItemToBackpack "30Rnd_65x39_caseless_black_mag";};
-_unit addItemToBackpack "Laserbatteries";
+for "_i" from 1 to 5 do {_unit addItemToBackpack "30Rnd_65x39_caseless_black_mag";};
+_unit addItemToBackpack "3Rnd_HE_Grenade_shell";
 _unit addHeadgear "H_MilCap_dgtl";
-_unit addGoggles "G_Aviator";
+_unit addGoggles "G_EyeProtectors_Earpiece_F";
 
 comment "Add items";
 _unit linkItem "ItemMap";
@@ -519,11 +506,11 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 
 comment "Set identity";
-[_unit,"GreekHead_A3_01","male02gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+[_unit,"Hladas","male05gre"] call BIS_fnc_setIdentity;
+
 };
 
-	case "I_Captain_Hladas_F": {	//  (REVOLUTION_8) 
+	case "I_Captain_Hladas_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -557,6 +544,7 @@ _unit addItemToUniform "SmokeShell";
 _unit addItemToUniform "SmokeShellGreen";
 for "_i" from 1 to 2 do {_unit addItemToUniform "Chemlight_green";};
 _unit addHeadgear "H_MilCap_dgtl";
+_unit addGoggles "G_Aviator";
 
 comment "Add items";
 _unit linkItem "ItemMap";
@@ -565,11 +553,10 @@ _unit linkItem "ItemWatch";
 _unit linkItem "ItemRadio";
 
 comment "Set identity";
-[_unit,"GreekHead_A3_05","male01gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };
 
-	case "I_Story_Officer_01_F": {	//  (REVOLUTION_9) 
+	case "I_Story_Officer_01_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -625,7 +612,7 @@ for "_i" from 1 to 12 do {_unit addItemToBackpack "1Rnd_HE_Grenade_shell";};
 for "_i" from 1 to 6 do {_unit addItemToBackpack "SmokeShellGreen";};
 for "_i" from 1 to 10 do {_unit addItemToBackpack "Chemlight_green";};
 _unit addHeadgear "H_Beret_blk";
-_unit addGoggles "G_Tactical_Clear";
+_unit addGoggles "G_Aviator";
 
 comment "Add items";
 _unit linkItem "ItemMap";
@@ -636,11 +623,10 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 	
 comment "Set identity";
-[_unit,"GreekHead_A3_05","male02gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };
 
-	case "I_Story_Crew_F": {	//  (REVOLUTION_10) 
+	case "I_Story_Crew_F": {
 
 comment "Exported from Arsenal by DIEHARD";
 
@@ -704,8 +690,7 @@ _unit linkItem "I_UavTerminal";
 _unit linkItem "NVGoggles_INDEP";
 	
 comment "Set identity";
-[_unit,"GreekHead_A3_08","male06gre",1,"Revolution"] call BIS_fnc_setIdentity;
-[_unit,"Curator"] call BIS_fnc_setUnitInsignia;
+
 };	
 };
 

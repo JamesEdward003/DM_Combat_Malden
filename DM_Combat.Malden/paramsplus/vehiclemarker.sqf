@@ -1,16 +1,16 @@
 //////////////////////////////////////////////////////////////////
 // 		[_this] execVM "paramsplus\vehicleMarker.sqf";
 //////////////////////////////////////////////////////////////////
-private ["_vehicle","_vehType","_marker","_mrkrName","_mrkrcolor","_markertype"];
+private ["_vehicle","_vehicleType","_marker","_mrkrName","_mrkrcolor","_markertype"];
 _vehicle = _this select 0;
 
-//_vehType = typeOf _vehicle;  //getText (configFile >> "CfgVehicles" >> (typeOf _vehicle) >> "displayName");
+//_vehicleType = typeOf _vehicle;  //getText (configFile >> "CfgVehicles" >> (typeOf _vehicle) >> "displayName");
 _classname 	= format ["%1", typeOf _vehicle];
 _displayname = gettext (configfile >> "CfgVehicles" >> _className >> "displayName");
 _marker = objNull;
 _mrkrName = format["mrkr_%1",random 100];
 
-_mrkrcolor = switch (side player) do {
+_mrkrcolor = switch (side _vehicle) do {
 
 	case west: {"colorBLUFOR"};
 	case east: {"colorOPFOR"};
@@ -18,7 +18,7 @@ _mrkrcolor = switch (side player) do {
 	default {"ColorCivilian"};
 };
 				
-_markertype = switch (side player) do 
+_markertype = switch (side _vehicle) do 
 	{
 	case west: {	
 			switch true do 
@@ -32,6 +32,7 @@ _markertype = switch (side player) do
 			case (_vehicle iskindof "staticweapon"): {"b_inf"};
 			case (_vehicle iskindof "slingload_base_f"): {"mil_dot"};
 			case (_vehicle iskindof "reammobox_f"): {"mil_dot"};
+			default {"mil_dot"};
 			};
 		};	
 	case east: {		
@@ -46,6 +47,7 @@ _markertype = switch (side player) do
 			case (_vehicle iskindof "staticweapon"): {"o_inf"};
 			case (_vehicle iskindof "slingload_base_f"): {"mil_dot"};
 			case (_vehicle iskindof "reammobox_f"): {"mil_dot"};
+			default {"mil_dot"};
 			};	
 		};
 	case resistance: {		
@@ -60,6 +62,7 @@ _markertype = switch (side player) do
 			case (_vehicle iskindof "staticweapon"): {"n_inf"};
 			case (_vehicle iskindof "slingload_base_f"): {"mil_dot"};
 			case (_vehicle iskindof "reammobox_f"): {"mil_dot"};
+			default {"mil_dot"};
 			};	
 		};
 	case civilian: {		
@@ -74,6 +77,7 @@ _markertype = switch (side player) do
 			case (_vehicle iskindof "staticweapon"): {"n_inf"};
 			case (_vehicle iskindof "slingload_base_f"): {"mil_dot"};
 			case (_vehicle iskindof "reammobox_f"): {"mil_dot"};
+			default {"mil_dot"};
 			};	
 		};
 }; 	

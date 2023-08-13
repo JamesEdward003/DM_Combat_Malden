@@ -11,8 +11,8 @@ _inc       = (_this select 5)/_many;
 _vehicle   = _this select 6;
 _vhome     = _this select 7;
 _vVarName  = vehicleVarName _vehicle;
-hint format ["Center: %1, Radius: %2, Amount: %3, FlyInHeight: %4, Angle: %5, Inc: %6, Vehicle: %7, Home: %8, Varname: %9",_centrepos,_rad,_many,_height,_ang,_inc,_vehicle,_vhome,_vVarname];
-copyToClipboard format ["Center: %1, Radius: %2, Amount: %3, FlyInHeight: %4, Angle: %5, Inc: %6, Vehicle: %7, Home: %8, Varname: %9",_centrepos,_rad,_many,_height,_ang,_inc,_vehicle,_vhome,_vVarname];
+//hint format ["Center: %1, Radius: %2, Amount: %3, FlyInHeight: %4, Angle: %5, Inc: %6, Vehicle: %7, Home: %8, Varname: %9",_centrepos,_rad,_many,_height,_ang,_inc,_vehicle,_vhome,_vVarname];
+//copyToClipboard format ["Center: %1, Radius: %2, Amount: %3, FlyInHeight: %4, Angle: %5, Inc: %6, Vehicle: %7, Home: %8, Varname: %9",_centrepos,_rad,_many,_height,_ang,_inc,_vehicle,_vhome,_vVarname];
 
 while {(count (waypoints (group _vehicle))) > 0} do {
 	deleteWaypoint ((waypoints (group _vehicle)) select 0);
@@ -104,7 +104,7 @@ while {(count (waypoints (group _vehicle))) > 0} do {
 	};
 	[_vehicle,200,80] execVM "paramsplus\speedLimiter.sqf";
 	(driver _vehicle) setBehaviour "AWARE";
-	_wp = (group _vehicle) addWaypoint [ position _vhome, 0];	
+	_wp = (group _vehicle) addWaypoint [ _vhome, 0];	
 	_wp setWaypointType "MOVE";
 	_wp setWaypointSpeed "NORMAL";
 	_wp setWaypointStatements ["true", "{deletevehicle _x} foreach (crew vehicle this + [vehicle this]);"];
@@ -120,7 +120,7 @@ while {(count (waypoints (group _vehicle))) > 0} do {
 	};
 	[_vehicle,200,80] execVM "paramsplus\speedLimiter.sqf";
 	(driver _vehicle) setBehaviour "AWARE";
-	_wp = (group _vehicle) addWaypoint [ position _vhome, 0];	
+	_wp = (group _vehicle) addWaypoint [ _vhome, 0];	
 	_wp setWaypointType "MOVE";
 	_wp setWaypointSpeed "NORMAL";
 	_wp setWaypointStatements ["true", "{deletevehicle _x} foreach (crew vehicle this + [vehicle this]);"];
@@ -155,7 +155,7 @@ while {(count (waypoints (group _vehicle))) > 0} do {
 	};
 //[_vehicle,200,80] execVM "speedLimiter.sqf";
 (driver _vehicle) setBehaviour "AWARE";
-_wp = (group _vehicle) addWaypoint [position _vhome, 0];	
+_wp = (group _vehicle) addWaypoint [ _vhome, 0];	
 _wp setWaypointType "MOVE";
 _wp setWaypointSpeed "NORMAL";
 _wp setWaypointStatements ["true", "{deletevehicle _x} foreach (crew vehicle this + [vehicle this]);"];

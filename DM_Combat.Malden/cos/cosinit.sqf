@@ -11,11 +11,9 @@
  Open COS/AddScript_Vehicle.sqf to apply scripts to spawned vehicles.
  To get Array of COS markers use _allMarkers=SERVER getvariable "COSmarkers";
 */
-_PCivilians = "PCivilians" call BIS_fnc_getParamValue;
+_Alice_Civilians = "Alice_Civilians" call BIS_fnc_getParamValue;
 
-if (_PCivilians isEqualTo 1) exitWith {};
-		
-if ((_PCivilians isEqualTo 2) or (_PCivilians isEqualTo 3) or (_PCivilians isEqualTo 4)) then {
+if (_Alice_Civilians isEqualTo 1) exitWith {};
 	
 if (isnil "SERVER") then {Hint "You must ADD a object named SERVER";Player Sidechat "You must ADD a object named SERVER";}else{
 if (isServer) then {
@@ -193,11 +191,6 @@ null=[] execVM "COS\localScript.sqf";// This shows messages for players during m
 
 };
 };
-};
-
-if (_PCivilians isEqualTo 2) exitWith {};
-	
-if ((_PCivilians isEqualTo 3) or (_PCivilians isEqualTo 4)) then {
 	
 	if ( isNil { missionNamespace getVariable "StoryLines" } ) then {
 	_texts = [ 
@@ -402,13 +395,12 @@ switch (side player) do
 			["task2", "CANCELED",true] spawn BIS_fnc_taskSetState;
 		};
 };	
-};
 
-_PCivilians = "PCivilians" call BIS_fnc_getParamValue;
+_Alice_Civilians = "Alice_Civilians" call BIS_fnc_getParamValue;
 
-if (_PCivilians isEqualTo 3) exitWith {};
+if ((_Alice_Civilians isEqualTo 1) || (_Alice_Civilians isEqualTo 2)) exitWith {};
 
-if (_PCivilians isEqualTo 4) then {
+if (_Alice_Civilians isEqualTo 3) then {
 	
 	[playerSide, "HQ"] commandChat "Initiating Armed Civilians!";
 

@@ -1,8 +1,7 @@
-/////--"paramsplus\markers_Group--/////
+/////--"paramsplus\markers_Group"--/////
 private ["_unit","_PMarkers"];
 _PMarkers = "PMarkers" call BIS_fnc_getParamValue;
 if (_PMarkers isEqualTo 1) exitWith {};
-
 switch (_PMarkers) do
 {
 	case 1: {

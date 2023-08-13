@@ -14,171 +14,58 @@ Headquarters Entity module
 */
 
 _CROSSROAD = [playerSide, "HQ"] commandChat "Initiating InitServer!";
+SupplyMrkrCount = 0;publicVariable "SupplyMrkrCount";
+StaticGroupCount = 0;publicVariable "StaticGroupCount";
 
 //{if (!( isPlayer _x ) and !(_x in (units group player))) then  {deleteVehicle _x}} forEach (if ismultiplayer then {playableunits} else {switchableunits});
 
 {if (!( isPlayer _x ) and (_x in (units group player))) then  {_x addAction ["<t color='#00FFFF'>Dismiss</t>","ParamsPlus\dismiss.sqf",[],100,false,true,""];}} forEach (if ismultiplayer then {playableunits} else {switchableunits});
 
-/*
+{if (_x in (units group player)) then  {
 
-_PCivilians = "PCivilians" call BIS_fnc_getParamValue;
+	_x addEventHandler ["InventoryOpened", {
+		params ["_unit", "_container"];
+		if (count (_unit nearSupplies 50) >0) then {			
+			_SupplyMarkers = [];
+			_mrkrColor 	= [];
+			switch (side _unit) do {
+         		case blufor:		{_mrkrcolor = "ColorWEST"};
+         		case opfor:			{_mrkrcolor = "ColorEAST"};
+         		case independent:	{_mrkrcolor = "ColorGUER"};
+         		case civilian:		{_mrkrcolor = "ColorCIV"};
+			};
+			hintSilent "Near Supplies Marked On Map!";
+			for "_a" from SupplyMrkrCount to (SupplyMrkrCount + (count (_unit nearSupplies 50)) - 1) do {
+				for "_b" from 0 to (count (_unit nearSupplies 50) - 1) do {
+					_supplyType = typeOf ((_unit nearSupplies 50) select _b);
+	           		_n = format["SupplyMarker_%1", _a];
+	           		_m = createMarker [_n, (_unit nearSupplies 50) select _b];
+	           		_m setMarkerType "mil_dot";
+	           		_m setMarkerColor _mrkrColor;
+	           		_m setMarkerText (str _supplyType);
+	           		_SupplyMarkers pushBack _m;
+	           		SupplyMrkrCount = SupplyMrkrCount + 1;
+           		};
+           	};
+		} else {hintSilent "No Supplies Near Unit!";};	// nearSupplies [typeName, radius]
+	}];
+}} forEach (if ismultiplayer then {playableunits} else {switchableunits});
 
-if (_PCivilians isEqualTo 2) then {
-	
-switch (playerSide) do {
-	
-	case west: {
-		
-//		Civilian setFriend [Civilian, 0];
-		
-		Civilian setFriend [East, 1];
-		East setFriend [Civilian, 1];
-		Civilian setFriend [West, 0];
-		West setFriend [Civilian, 0];
-		Civilian setFriend [Resistance, 1];
-		Resistance setFriend [Civilian, 1];
-		West setFriend [East, 0];
-		East setFriend [West, 0];
-		West setFriend [Resistance, 0];
-		Resistance setFriend [West, 0];
-	};
-	case east: {
-		
-		Civilian setFriend [East, 0];
-		East setFriend [Civilian, 0];
-		Civilian setFriend [West, 1];
-		West setFriend [Civilian, 1];
-		Civilian setFriend [Resistance, 1];
-		Resistance setFriend [Civilian, 1];
-		West setFriend [East, 0];
-		East setFriend [West, 0];
-		West setFriend [Resistance, 0];
-		Resistance setFriend [West, 0];
-	};
-	case resistance: {
-		
-		Civilian setFriend [East, 1];
-		East setFriend [Civilian, 1];
-		Civilian setFriend [West, 1];
-		West setFriend [Civilian, 1];
-		Civilian setFriend [Resistance, 0];
-		Resistance setFriend [Civilian, 0];
-		West setFriend [East, 0];
-		East setFriend [West, 0];
-		West setFriend [Resistance, 0];
-		Resistance setFriend [West, 0];
-	};
-	case civilian: {
-		
-		Civilian setFriend [East, 0];
-		East setFriend [Civilian, 0];
-		Civilian setFriend [West, 0];
-		West setFriend [Civilian, 0];
-		Civilian setFriend [Resistance, 0];
-		Resistance setFriend [Civilian, 0];
-		West setFriend [East, 0];
-		East setFriend [West, 0];
-		West setFriend [Resistance, 0];
-		Resistance setFriend [West, 0];
-	};
-};
-	_CROSSROAD = [playerSide, "HQ"] commandChat "Initiated Sides!";
-	
-	player addAction ["<t color='#40e0d0'>Take Pack</t>","params ['_target','_caller']; _caller action ['AddBag', (nearestObject [_caller, 'GroundWeaponHolder']), typeOf firstBackpack (nearestObject [_caller, 'GroundWeaponHolder'])];","",10,false,true,"","_this distance _target<10"];
-//	player addAction ["<t color='#40e0d0'>Take Pack</t>","params ['_target','_caller']; _caller action ['AddBag', (nearestObject [_caller, 'GroundWeaponHolder']), typeOf firstBackpack (nearestObject [_caller, 'GroundWeaponHolder'])];","",10,false,true,"","_this distance _target<10"];
-};
+{if (_x in (units group player)) then  {
+	_x addEventHandler ["InventoryClosed", {
+		params ["_unit", "_container"];
+		_addWeapon = [_unit,currentWeapon _unit,1] call BIS_fnc_addWeapon;
+		_unit setVariable ["loadout",(getUnitLoadout _unit)];
+		titletext ["\nLoadout Saved", "PLAIN DOWN"];
+	}];
+}} forEach (if ismultiplayer then {playableunits} else {switchableunits});
 
-
-
-_PCivilians = "PCivilians" call BIS_fnc_getParamValue;
-
-if (_PCivilians isEqualTo 4) then {
-	
-switch (playerSide) do {
-	
-	case west: {
-		
-//		Civilian setFriend [Civilian, 0];
-		
-		Civilian setFriend [East, 0];
-		East setFriend [Civilian, 0];
-		Civilian setFriend [West, 0];
-		West setFriend [Civilian, 0];
-		Civilian setFriend [Resistance, 0];
-		Resistance setFriend [Civilian, 0];
-		West setFriend [East, 0];
-		East setFriend [West, 0];
-		West setFriend [Resistance, 0];
-		Resistance setFriend [West, 0];
-	};
-	case east: {
-		
-		Civilian setFriend [East, 0];
-		East setFriend [Civilian, 0];
-		Civilian setFriend [West, 0];
-		West setFriend [Civilian, 0];
-		Civilian setFriend [Resistance, 0];
-		Resistance setFriend [Civilian, 0];
-		West setFriend [East, 0];
-		East setFriend [West, 0];
-		West setFriend [Resistance, 0];
-		Resistance setFriend [West, 0];
-	};
-	case resistance: {
-		
-		Civilian setFriend [East, 0];
-		East setFriend [Civilian, 0];
-		Civilian setFriend [West, 0];
-		West setFriend [Civilian, 0];
-		Civilian setFriend [Resistance, 0];
-		Resistance setFriend [Civilian, 0];
-		West setFriend [East, 0];
-		East setFriend [West, 0];
-		West setFriend [Resistance, 0];
-		Resistance setFriend [West, 0];
-	};
-	case civilian: {
-		
-		Civilian setFriend [East, 0];
-		East setFriend [Civilian, 0];
-		Civilian setFriend [West, 0];
-		West setFriend [Civilian, 0];
-		Civilian setFriend [Resistance, 0];
-		Resistance setFriend [Civilian, 0];
-		West setFriend [East, 0];
-		East setFriend [West, 0];
-		West setFriend [Resistance, 0];
-		Resistance setFriend [West, 0];
-	};
-};
-	_CROSSROAD = [playerSide, "HQ"] commandChat "Initiated Sides!";
-	
-	player addAction ["<t color='#40e0d0'>Take Pack</t>","params ['_target','_caller']; _caller action ['AddBag', (nearestObject [_caller, 'GroundWeaponHolder']), typeOf firstBackpack (nearestObject [_caller, 'GroundWeaponHolder'])];","",10,false,true,"","_this distance _target<10"];
-//	player addAction ["<t color='#40e0d0'>Take Pack</t>","params ['_target','_caller']; _caller action ['AddBag', (nearestObject [_caller, 'GroundWeaponHolder']), typeOf firstBackpack (nearestObject [_caller, 'GroundWeaponHolder'])];","",10,false,true,"","_this distance _target<10"];
-};
-
-
-_BI_CP_startLocation = "BI_CP_startLocation" call BIS_fnc_getParamValue;	
-
-if (_BI_CP_startLocation isEqualTo 2) then {
-	
-	_pos = getPos leader player;
-	
-	_tLoading = 0;
-	waitUntil {!isNil "BIS_CP_initDone"};
-	waitUntil {time > _tLoading};
-	
-	waitUntil { (player distance2d BIS_CP_targetLocationPos) < 1500 };
-	{
-	if ( _x != leader player) then {
-		_relDis = _x distance leader player;
-		_relDir = [leader player, _x] call BIS_fnc_relativeDirTo;
-		_x setPos ([_pos, _relDis, _relDir] call BIS_fnc_relPos);
-	}; 
-	} forEach units group player;
-	leader player setPos _pos;
-	BIS_CP_exfilPos = _pos;
-	["BIS_CP_taskExfil", position player] call BIS_fnc_taskSetDestination;
-
-};	
-*/
+[west, "PETTKA"] call BIS_fnc_addRespawnInventory;
+[west, "NORTHGATE"] call BIS_fnc_addRespawnInventory;
+[west, "KERRY"] call BIS_fnc_addRespawnInventory;
+[west, "MCKAY"] call BIS_fnc_addRespawnInventory;
+[west, "JAMES"] call BIS_fnc_addRespawnInventory;
+[west, "HARDY"] call BIS_fnc_addRespawnInventory;
+[west, "KELLY"] call BIS_fnc_addRespawnInventory;
+[west, "SQUADLEADER"] call BIS_fnc_addRespawnInventory;
+[west, "MARKSMAN"] call BIS_fnc_addRespawnInventory;

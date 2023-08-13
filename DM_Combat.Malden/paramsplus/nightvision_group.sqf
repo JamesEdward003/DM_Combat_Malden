@@ -38,7 +38,7 @@ switch (_PNightVision) do
 					for "_i" from 0 to count _nvList -1 do
 					{
 						_nv = _nvList select _i;
-						if (([_unit, _nv] call BIS_fnc_hasItem) isEqualTo true) then {
+						if (_nv in (items _unit + assignedItems _unit)) then {
 									
 							_unit unassignItem _nv;	
 							_unit unLinkItem _nv;

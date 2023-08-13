@@ -61,7 +61,7 @@ _pcamo		= "PCamoCoef" call BIS_fnc_getParamValue;
 		case 1: {_psway = 0.10};
 		case 2: {_psway = 0.40};
 		case 3: {_psway = 0.70};
-		case 4: {_psway =    1};
+		case 4: {_psway = 1};
 	};	 
 	_player setCustomAimCoef _psway;
 
@@ -105,7 +105,7 @@ _pcamo		= "PCamoCoef" call BIS_fnc_getParamValue;
 		case 4: {_pcamo =    1};
 	};	 
 	_player setUnitTrait ["camouflageCoef",_pcamo];
-	
+
 _player addEventHandler ["Respawn", {
 	params ["_unit", "_corpse"];
 
@@ -126,5 +126,3 @@ if (isPlayer _player) then {
 //_player enableFatigue false;
 //uiSleep 1;
 //};
-
-

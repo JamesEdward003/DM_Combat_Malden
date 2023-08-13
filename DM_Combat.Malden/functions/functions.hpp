@@ -6,6 +6,7 @@ class REN
 		file = "functions";
 		class timeoutCountdownHint{};
 		class bisCountdownHint{};
+		class bisLightning{};
 		class initCountdownTimer{};
 		class initColoredTimer{};
 		class getScreenName{};
@@ -26,6 +27,8 @@ class REN
 		class k9{};
 		class killedInfo{};
 		class killedInfoMode{};
+		class manMG{};
 		class respawn{};
+		class setVehicleVarname{};
 	};
 };

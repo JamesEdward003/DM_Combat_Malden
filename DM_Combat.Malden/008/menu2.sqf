@@ -18,10 +18,10 @@ WeatherSupport_Menu =
 PlayerSupport_Menu2 = 
 [
 	["Player Support 2",False],
-	["Respawn Marker Player",[2],"",-5,[["expression","_null=[player] execvm '008\SpawnPoint.sqf'"]],"1","1"],
-	["Respawn Marker On MapClick",[3],"",-5,[["expression","_null=[] execvm '008\SpawnPointOMC.sqf'"]],"1","1"],
-	["Player TaskCheck",[4],"",-5,[["expression","_null=[player] execvm 'taskCheck.sqf'"]],"1","1"],
-	["Player Call BIS_fnc_help",[5],"",-5,[["expression","_null=[] call BIS_fnc_help"]],"1","1"],
+	["Respawn Point On Player",[2],"",-5,[["expression","_null=[player] execvm '008\SpawnPoint.sqf'"]],"1","1"],
+	["Respawn Point On MapClick",[3],"",-5,[["expression","_null=[] execvm '008\SpawnPointOMC.sqf'"]],"1","1"],
+	["Rally Point On Player",[4],"",-5,[["expression","_null=[player] execvm '008\RallyPointOP.sqf'"]],"1","1"],
+	["Rally Point On MapClick",[5],"",-5,[["expression","_null=[] execvm '008\RallyPointOMC.sqf'"]],"1","1"],
 	["Vehicle Cursor Unlock",[6],"",-5,[["expression","_null=[] execvm '008\unlock.sqf'"]],"1","1"],
 	["Vehicle Cursor Service",[7],"",-5,[["expression","_null=[objNull,player] execvm '008\vehicleService.sqf'"]],"1","1"],
 	["Teleport Player",[8],"",-5,[["expression","_null=[player] execvm '008\teleport.sqf'"]],"1","1"],

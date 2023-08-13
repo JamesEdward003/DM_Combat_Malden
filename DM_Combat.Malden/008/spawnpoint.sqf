@@ -20,4 +20,4 @@ _unit spawn {
 	};
 };
 
-hintSilent format ["Rally Point Deployed At %1", _vehicleVarName];
+//hintSilent format ["Rally Point Deployed At %1", _vehicleVarName];

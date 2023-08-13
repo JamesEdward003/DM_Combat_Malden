@@ -40,7 +40,7 @@ switch (_PSilencers) do
 					for "_i" from 0 to count _muzzleList -1 do
 					{
 						_ml = _muzzleList select _i;
-						if (([_unit, _ml] call BIS_fnc_hasItem) isEqualTo true) then {
+						if (_ml in (items _unit + assignedItems _unit))  then {
 								
 							_unit unassignItem _ml;
 							_unit unLinkItem _ml;

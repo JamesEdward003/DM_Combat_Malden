@@ -14,6 +14,7 @@ EPDJtacGuidedMissileExplosiveFailureChance = 5;
 EPDJtacGuidedMissileLostTrackingFailureChance = 5;
 
 // [category, capacity, shortReloadTime, longReloadTime]
+/*
 EPDJtacReloads = [
     ["BULLETS", 10, 30, 120],
     ["SHELLS", 10, 30, 225],
@@ -24,7 +25,17 @@ EPDJtacReloads = [
     ["MINES", 5, 30, 600],
     ["NONLETHAL", 5, 30, 120]
 ];
-
+*/
+EPDJtacReloads = [
+    ["BULLETS", 10, 10, 20],
+    ["SHELLS", 10, 10, 25],
+    ["STRAFINGRUN", 5, 10, 30],
+    ["BOMBS", 4, 20, 30],
+    ["ROCKETS", 3, 20, 30],
+    ["GUIDEDMISSILE", 2, 20, 30],
+    ["MINES", 5, 10, 30],
+    ["NONLETHAL", 5, 10, 20]
+];
 /*
 	["payloadCategory", "displayName", "acquireRate", "reloadTime", "projectileFiringMethod", [firing method parameters...]]
 	

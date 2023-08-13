@@ -1,4 +1,4 @@
-////////   _null = [player] execVM "heliAttack.sqf";    ///////////
+////////   _null = [player] execVM "helicas_circle.sqf";    ///////////
 private ["_caller","_position","_target","_is3D","_id","_unit", "_sideUnit", "_pos", "_location", "_mrkr"];
 params ["_caller","_position","_target","_is3D","_id"];
 _unit = _this select 0;
@@ -20,7 +20,7 @@ switch (_sideUnit) do
 {
 	case west: 		{_airType = "B_Heli_Attack_01_F"}; // B_Heli_Attack_01_dynamicLoadout_F // B_Heli_Attack_01_F
 	case east: 		{_airType = "O_Heli_Light_02_F"}; // O_Heli_Light_02_v2_F // O_Heli_Attack_02_F // 	O_Heli_Attack_02_black_F // O_Heli_Attack_02_dynamicLoadout_F // O_Heli_Attack_02_dynamicLoadout_black_F
-	case resistance: 	{_airType = "O_Heli_Attack_02_v2_F"}; 
+	case resistance: 	{_airType = "I_Heli_light_03_F"}; // I_Heli_light_03_dynamicLoadout_F // I_E_Heli_light_03_dynamicLoadout_F // I_Heli_light_03_F
 	case civilian: 	{_airType = "O_Heli_Light_02_unarmed_F"};
 };
 
@@ -96,7 +96,7 @@ openmap [false,false];
 
 					deleteMarker "target";
 
-					_friendlySide reveal [_enemyItem, 1.5]
+					_friendlySide reveal [_enemyItem, 1.5];
 				};
 			};
 		};
@@ -108,8 +108,12 @@ openmap [false,false];
 	
 	(_ch select 0) setVehicleVarname "AttackHelo";
 	
-	[AttackHelo] execVM "ParamsPlus\vehicleMarker.sqf";
-	
+	[(_ch select 0), "AttackHelo"] call ren_fnc_setVehicleVarname;
+
+//	[AttackHelo] execVM "ParamsPlus\vehicleMarker.sqf";
+
+	AttackHelo addEventHandler ["Fired",{[_this select 0,getNumber (configFile/"CfgAmmo"/(_this select 4)/"explosive")] spawn {if (_this select 1==1) then {uisleep 0.5};_this select 0 setVehicleAmmo 1}}];
+
 	AttackHelo addEventHandler ["GetIn", { (_this select 0) allowDamage false; (_this select 2) allowDamage false; } ]; 
 	AttackHelo addEventHandler ["GetOut", { (_this select 0) allowDamage true; (_this select 2) allowDamage true; } ];	
 			
@@ -117,7 +121,7 @@ openmap [false,false];
 	
 	PAPABEAR=[_sideUnit,"HQ"]; PAPABEAR SideChat format ["AttackHelo to your position %1", name _unit];
 				
-	gunner AttackHelo setBehaviour "COMBAT";
+	(gunner AttackHelo) setBehaviour "COMBAT";
 	
 	[getMarkerPos "target",300,360,80,60,360,AttackHelo,_airEnd] execvm "ParamsPlus\fly_circle_H.sqf";
 

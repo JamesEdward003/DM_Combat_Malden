@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////
+///////////// ARMA 3 ////////////
 PlayerSupport_Menu1 = 
 [
 	["Player Support 1",False],
@@ -18,8 +18,8 @@ PlayerSupport_Menu2 =
 	["Player Support 2",False],
 	["Respawn Marker Player",[2],"",-5,[["expression","_null=[player] execvm '008\RallyPoint.sqf'"]],"1","1"],
 	["Respawn Marker On MapClick",[3],"",-5,[["expression","_null=[] execvm '008\RallyPointOMC.sqf'"]],"1","1"],
-	["Player TaskCheck",[4],"",-5,[["expression","_null=[player] execvm 'taskCheck.sqf'"]],"1","1"],/////
-	["Player Call BIS_fnc_help",[5],"",-5,[["expression","_null=[] call BIS_fnc_help"]],"1","1"],/////
+	["Rally Point On Player",[4],"",-5,[["expression","_null=[player] execvm '008\RallyPointOP.sqf'"]],"1","1"],
+	["Rally Point On MapClick",[5],"",-5,[["expression","_null=[] execvm '008\RallyPointOMC.sqf'"]],"1","1"],
 	["Vehicle Cursor Unlock",[6],"",-5,[["expression","_null=[] execvm '008\unlock.sqf'"]],"1","1"],
 	["Vehicle Cursor Service",[7],"",-5,[["expression","_null=[cursorTarget] execvm '008\vehicleService.sqf'"]],"1","1"],
 	["Teleport Player",[8],"",-5,[["expression","_null=[player] execvm '008\teleport.sqf'"]],"1","1"],
@@ -29,7 +29,7 @@ PlayerSupport_Menu2 =
 
 WeaponSupport_Menu1 = 
 [
-	["Weapon Support Player",False],
+	["Weapon Support 1",False],
 	["Rifleman(AT)",[2],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_soldier_LAT_F')"]],"1","1"],
 	["Repair Specialist",[3],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_soldier_repair_F')"]],"1","1"],
 	["Combat Life Saver",[4],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_medic_F')"]],"1","1"],
@@ -37,14 +37,14 @@ WeaponSupport_Menu1 =
 	["Explosive Specialist",[6],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_soldier_exp_F')"]],"1","1"],
 	["Grenadier",[7],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_Soldier_GL_F')"]],"1","1"],
 	["Heavy Gunner",[8],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_HeavyGunner_F')"]],"1","1"],
-	["Marksman",[9],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_soldier_M_F')"]],"1","1"],
-	["Sharpshooter",[10],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_Sharpshooter_F')"]],"1","1"],
-	["SAVE LOADOUT",[11],"",-5,[["expression","_null=[player] execvm 'cly_addweapon\saveLoadout_init.sqf'"]],"1","1"]
+	["JTAC",[9],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_T_Recon_JTAC_F')"]],"1","1"],
+	["Sharpshooter",[10],"",-5,[["expression","player setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_CTRG_Sharphooter_F')"]],"1","1"],
+	["SAVE LOADOUT",[11],"",-5,[["expression","_null=[player, [missionNamespace, 'inventory_var']] call BIS_fnc_saveInventory"]],"1","1"]
 ];
 
 WeaponSupport_Menu2 =
 [
-	["Weapon Support CursorTarget",False],
+	["Weapon Support 2",False],
 	["Rifleman(AT)",[2],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_soldier_LAT_F')"]],"1","1"],
 	["Repair Specialist",[3],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_soldier_repair_F')"]],"1","1"],
 	["Combat Life Saver",[4],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_medic_F')"]],"1","1"],
@@ -52,9 +52,9 @@ WeaponSupport_Menu2 =
 	["Explosive Specialist",[6],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_soldier_exp_F')"]],"1","1"],
 	["Grenadier",[7],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_Soldier_GL_F')"]],"1","1"],
 	["Heavy Gunner",[8],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_HeavyGunner_F')"]],"1","1"],
-	["Marksman",[9],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_soldier_M_F')"]],"1","1"],
-	["Sharpshooter",[10],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_Sharpshooter_F')"]],"1","1"],
-	["SAVE LOADOUT",[11],"",-5,[["expression","_null=[cursorTarget] execvm 'cly_addweapon\saveLoadout_init.sqf'"]],"1","1"]
+	["JTAC",[9],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_T_Recon_JTAC_F')"]],"1","1"],
+	["Sharpshooter",[10],"",-5,[["expression","cursorTarget setUnitLoadout (configFile >> 'CfgVehicles' >> 'B_CTRG_Sharphooter_F')"]],"1","1"],
+	["SAVE LOADOUT",[11],"",-5,[["expression","_null=[player, [missionNamespace, 'inventory_var']] call BIS_fnc_saveInventory"]],"1","1"]
 ];	
 
 MusicSupport_Menu1 = 
@@ -110,7 +110,7 @@ AirSupport_Menu1 =
 	["Air Strike",[7],"",-5,[["expression","_null=[player] execvm '008\airStrike.sqf'"]],"1","1"],
 	["Missile Strike",[8],"",-5,[["expression","_null=[player] execvm '008\MissileStrike\missile_airstrike_init.sqf'"]],"1","1"],
 	["Fixed-Wing CAS",[9],"",-5,[["expression","_null=[player] execvm '008\plannedFixedWing.sqf'"]],"1","1"],
-	["Rotary-Wing CAS",[10],"",-5,[["expression","_null=[player] execvm '008\plannedRotaryWing.sqf'"]],"1","1"]
+	["Rotary-Wing CAS",[10],"",-5,[["expression","_null=[player] execvm 'paramsplus\helicas_circle.sqf'"]],"1","1"]
 ];
 
 AirSupport_Menu2 =
@@ -147,8 +147,8 @@ Custom_Main_Menu =
 	["Support Menu",False],
 	["Player Support 1",[2],"#USER:PlayerSupport_Menu1",-5,[["expression",""]],"1","1"],
 	["Player Support 2",[3],"#USER:PlayerSupport_Menu2",-5,[["expression",""]],"1","1"],
-	["Weapon Support 1",[4],"#USER:WeaponSupport_Menu1",-5,[["expression",""]],"1","1"],
-	["Weapon Support 2",[5],"#USER:WeaponSupport_Menu2",-5,[["expression",""]],"1","1"],
+	["Player Weapons",[4],"#USER:WeaponSupport_Menu1",-5,[["expression",""]],"1","1"],
+	["Cursor Weapons",[5],"#USER:WeaponSupport_Menu2",-5,[["expression",""]],"1","1"],
 	["Music Support 1",[6],"#USER:MusicSupport_Menu1",-5,[["expression",""]],"1","1"],
 	["Music Support 2",[7],"#USER:MusicSupport_Menu2",-5,[["expression",""]],"1","1"],
 	["Music Support 3",[8],"#USER:MusicSupport_Menu3",-5,[["expression",""]],"1","1"],

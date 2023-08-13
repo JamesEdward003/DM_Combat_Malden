@@ -1,0 +1,61 @@
+;manMG.sqs
+
+;By General Barron
+
+;aw_barron@hotmail.com
+
+;3/29/03
+
+;This script is used to make units man a machine gun when its gunner gets killed.
+
+;A unit from a group you specify will go to man the machine gun after its gunner gets killed.
+
+;This unit will always be the lowest-ranking unit in the group, so that it doesn't interfere
+
+;with waypoints of the group (unless there is only one unit left in the group).
+
+; It is called as follows:
+
+;[mg,group] exec "manMG.sqs"
+
+;"mg" is the name of the machine gun you want manned.
+
+;"group" is the name of the group that will be manning the machine gun.
+
+;You can end all manMG scripts that are running by setting the variable manMG_end to TRUE
+
+;-----------------------------------------------------------------------------------------
+
+-----------------------------------------
+
+manMG_end = FALSE
+
+_gun = _this select 0
+
+_group = _this select 1
+
+#Loop
+
+@NOT alive gunner _gun OR NOT alive _gun OR manMG_end
+
+?NOT alive _gun OR manMG_end : exit
+
+;wait until the gunner dies
+
+;?"alive _x" count units _group <= 0 : exit
+
+?{alive _x} count units _group <= 0 : exit
+
+;if the group manning the machine gun has no units left, exit the script
+
+_gunner = units _group select (count units _group - 1)
+
+;select the last unit in the group
+
+_gunner assignAsGunner _gun
+
+[_gunner] orderGetIn TRUE
+
+;make him get in the gun
+
+goto "Loop"

@@ -47,11 +47,11 @@ Rally_Tent = _unit addAction ["<t color='#00FFFF'>Deploy Rally Tent</t>", {(_thi
 			case RESISTANCE: 	{"Respawn_Sleeping_bag_brown_F"};
 			case CIVILIAN: 		{"Respawn_Sleeping_bag_blue_F"};
 		};
-	_tentclass = switch (side _this) do  //		Land_TentA_F  Land_TentDome_F  Respawn_TentDome_F  Patrol_Respawn_bag_F
+	_tentclass = switch (side _this) do  //		Land_TentA_F  Land_TentDome_F  Respawn_TentDome_F  Patrol_Respawn_bag_F  B_Patrol_Respawn_tent_F
 		{
 			case WEST: 			{"Respawn_TentDome_F"};
 			case EAST: 			{"Respawn_TentA_F"};
-			case RESISTANCE: 	{"Patrol_Respawn_bag_F"};
+			case RESISTANCE: 	{"B_Patrol_Respawn_tent_F"};
 			case CIVILIAN: 		{"Respawn_TentA_F"};
 		};
 	_tentmrkr = switch (side _this) do 

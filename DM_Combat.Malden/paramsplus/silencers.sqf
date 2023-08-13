@@ -13,7 +13,7 @@ _muzzleList = ["muzzle_snds_H","muzzle_snds_L","muzzle_snds_M","muzzle_snds_B","
 
 if (((dayTime > ((date call BIS_fnc_sunriseSunsetTime) select 0) - 0.5) && (dayTime < ((date call BIS_fnc_sunriseSunsetTime) select 1) + 0.5)) isEqualTo false) then
 {
-	if (([_unit, "G_Goggles_VR"] call BIS_fnc_hasItem) isEqualTo true) then {
+	if ("G_Goggles_VR" in (items _unit + assignedItems _unit)) then {
 		
 		_unit unassignItem "G_Goggles_VR";
 		_unit unLinkItem "G_Goggles_VR";
@@ -26,7 +26,7 @@ if (((dayTime > ((date call BIS_fnc_sunriseSunsetTime) select 0) - 0.5) && (dayT
 	for "_i" from 0 to count _muzzleList -1 do
 	{
 		_ml = _muzzleList select _i;
-		if (([_unit, _ml] call BIS_fnc_hasItem) isEqualTo true) then {
+		if (_ml in (items _unit + assignedItems _unit)) then {
 				
 			_unit unassignItem _ml;
 			_unit unLinkItem _ml;
